@@ -1,36 +1,37 @@
+import { useState } from "react";
 import Alert from "./components/Alert";
-import Button from "./components/Button";
+import Button from "./components/Button/Button";
+import ListGroup from "./components/ListGroup";
+import "./App.css";
+
+import { IoCalendar } from "react-icons/io5";
+import Like from "./components/Like";
 
 function App() {
-  // let cities = [
-  //   "New York",
-  //   "Los Angeles",
-  //   "Chicago",
-  //   "Houston",
-  //   "Phoenix",
-  //   "Philadelphia",
-  // ];
+  const [alertVisible, setAlertVisibility] = useState(false);
 
-  // const handleSelectCity = (item: string) => {
-  //   console.log("City " + item + " selected!");
-  // };
-
-  // let colours = ["Red", "Green", "Blue", "Yellow", "Black", "White"];
-
-  // const handleSelectColour = (item: string) => {
-  //   console.log("Colour " + item + " selected!");
-  // };
-
-  const handleClick = () => {
-    console.log("Button clicked!");
+  const items = ["New York", "Los Angeles", "Chicago"];
+  const handleSelectItem = (item: string) => {
+    console.log(item);
   };
 
   return (
     <>
-      <Button style="secondary" onClick={handleClick}>
-        Click me pls!
-      </Button>
-      {/* <Alert>hello</Alert> */}
+      <Like onClick={() => console.log("clicked")}></Like>
+      {/* <Button onClick={function (): void {}}>MY BUTTON</Button> */}
+
+      {/* <IoCalendar color="blue" size="40" /> */}
+
+      {/* <ListGroup
+        heading="City"
+        items={items}
+        onSelectItem={handleSelectItem}
+      ></ListGroup>
+
+      {alertVisible && (
+        <Alert onClose={() => setAlertVisibility(false)}>My alert</Alert>
+      )}
+      */}
     </>
   );
 }
