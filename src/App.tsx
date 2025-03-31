@@ -1,8 +1,13 @@
-import { useState } from "react";
-import "./App.css";
-import NavBar from "./components/NavBar";
-import Cart from "./components/Cart";
-import ExpandableText from "./components/ExpandableText";
+import { useState } from 'react';
+import './App.css';
+import NavBar from './components/NavBar';
+import Cart from './components/Cart';
+import ExpandableText from './components/ExpandableText';
+import Form from './components/Form';
+import ExpenseList from './expense-tracker/components/ExpenseList';
+import ExpenseFilter from './expense-tracker/components/ExpenseFilter';
+import ExpenseForm from './expense-tracker/components/ExpenseForm';
+import categories from './expense-tracker/categories';
 
 function App() {
   // const [cartItems, setCartItems] = useState(["Product1", "Product2"]);
@@ -49,21 +54,38 @@ function App() {
     ))}
   </ul> */
 
+  const [selectedCategory, setSelectedCategory] = useState('');
+
+  const [expenses, setExpenses] = useState([
+    { id: 1, description: 'aaa', amount: 10, category: 'Utilities' },
+    { id: 2, description: 'bbb', amount: 10, category: 'Utilities' },
+    { id: 3, description: 'ccc', amount: 10, category: 'Utilities' },
+    { id: 4, description: 'ddd', amount: 10, category: 'Entertainment' },
+  ]);
+
+  const handleDelete = (id: number) => {
+    setExpenses(expenses.filter((expense) => expense.id !== id));
+  };
+
+  const visibleExpenses = selectedCategory
+    ? expenses.filter((e) => e.category === selectedCategory)
+    : expenses;
+
+  const handleAddExpense = (expense: any) => {
+    setExpenses([...expenses, { ...expense, id: expenses.length + 1 }]);
+  };
+
   return (
     <div>
-      <ExpandableText maxChars={20}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta iusto
-        temporibus corrupti sit, esse consequatur officia id est similique quis
-        tempore eius vitae voluptates officiis quibusdam, adipisci possimus
-        nesciunt placeat pariatur fugiat doloribus incidunt eaque magnam
-        quaerat? Temporibus, vitae ex inventore ea dolor nihil ipsum veniam eius
-        obcaecati ad placeat facilis accusantium officiis qui beatae esse soluta
-        quidem aliquam officia! Cumque veritatis ipsam quia quaerat sunt officia
-        provident, et accusantium voluptas accusamus? Velit fugit iure dolorum
-        tenetur voluptatibus eaque culpa, architecto facilis ipsam laudantium
-        nemo facere blanditiis molestias perspiciatis ut suscipit nostrum
-        tempora ex. Quas nihil tempora tenetur repellat voluptatibus!
-      </ExpandableText>
+      <div className="mb-5">
+        <ExpenseForm onSubmit={handleAddExpense}></ExpenseForm>
+      </div>
+      <div className="mb-3">
+        <ExpenseFilter
+          onSelectCategory={(category) => setSelectedCategory(category)}
+        ></ExpenseFilter>
+      </div>
+      <ExpenseList expenses={visibleExpenses} onDelete={handleDelete} />
     </div>
   );
 
